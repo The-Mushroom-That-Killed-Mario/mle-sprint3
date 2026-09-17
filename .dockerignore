@@ -1,0 +1,8 @@
+activate.sh
+docker_experiments
+Dockerfile
+.git
+.gitignore
+run.sh
+simple_fast_api
+.venv_mle-sprint3

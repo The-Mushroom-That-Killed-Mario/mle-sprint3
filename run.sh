@@ -1,26 +1,20 @@
 #!/bin/bash
 
-# 1. Автоматически находим, где лежит папка app с файлом main.py
-#TARGET_DIR=$(find /home/mle-user/mle_projects/mle-sprint3/simple_fast_api -type f -path "*/app/main.py" -exec dirname {} \;)
-TARGET_DIR=$(find /home/mle-user/mle_projects/mle-sprint3 -type f -path "*/app/main.py" -exec dirname {} \;)
-echo
-where
-echo
-ls
-echo
-# Если нашли, переходим в родительскую папку для папки app
-if [ -n "$TARGET_DIR" ]; then
-    cd "$TARGET_DIR/.."
-else
-    echo "Ошибка: Не удалось найти папку app/main.py внутри проекта!"
-    exit 1
-fi
+# Получаем директорию, в которой лежит сам run.sh
+PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# 2. Активируем виртуальное окружение
-source /home/mle-user/mle_projects/mle-sprint3/.venv_mle-sprint3/bin/activate
+echo "Project directory:"
+echo "$PROJECT_DIR"
+echo
 
-# 3. Запускаем uvicorn (без --app-dir, так как мы уже внутри нужной папки)
-uvicorn app.main:app \
+# Переходим в корень проекта
+cd "$PROJECT_DIR" || exit 1
+
+# Активируем виртуальное окружение
+source "$PROJECT_DIR/.venv_mle-sprint3/bin/activate"
+
+# Запускаем приложение
+uvicorn app.churn_app:app \
   --host 0.0.0.0 \
   --port 8000 \
   --reload
