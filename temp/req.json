@@ -19,3 +19,7 @@
   "days": 245,
   "services": 2
 }
+
+curl -X POST "http://localhost:4601/api/churn/?user_id=test-user" \
+  -H "Content-Type: application/json" \
+  -d '{"gender": 1,"SeniorCitizen": 0,"Partner": 0,"Dependents": 0,"Type": 0.5501916796819537,"PaperlessBilling": 1,"PaymentMethod": 0.2192247621752094,"MonthlyCharges": 50.8,"TotalCharges": 288.05,"MultipleLines": 0,"InternetService": 0.3437455629703251,"OnlineSecurity": 0,"OnlineBackup": 0,"DeviceProtection": 0,"TechSupport": 1,"StreamingTV": 0,"StreamingMovies": 0,"days": 245,"services": 2}'
