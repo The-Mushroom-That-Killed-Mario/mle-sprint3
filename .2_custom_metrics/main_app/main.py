@@ -3,6 +3,7 @@ from fastapi.responses import PlainTextResponse
 from prometheus_fastapi_instrumentator import Instrumentator
 import numpy as np
 from prometheus_client import Histogram
+from prometheus_client import Counter
 
 # создание экземпляра FastAPI приложения
 app = FastAPI()
@@ -22,10 +23,21 @@ main_app_predictions = Histogram(
     buckets=(1, 2, 4, 5, 10)
 )
 
+positive_predictions = Counter(
+    "positive_predictions",
+    "Number of positive predictions"
+)
+
+
 # предсказания
 @app.get("/predict")
 def predict(x: int, y: int):
     np.random.seed(int(abs(x)))
     prediction = x+y + np.random.normal(0,1)
     main_app_predictions.observe(prediction)
+
+    # ваш код здесь — увеличение метрики счётчика
+    if prediction > 0:
+        positive_predictions.inc()
+        
     return {'prediction': prediction}
